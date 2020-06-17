@@ -13,7 +13,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import SearchIcon from "@material-ui/icons/Search";
+import { writeStorage } from "@rehooks/local-storage";
 import React from "react";
+import { auth, database } from "../lib/Firebase";
 
 const useStyles = makeStyles((theme) => ({
 	grow: {
@@ -87,6 +89,26 @@ export default function NavBar() {
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+	const handleLogin = async () => {
+		const provider = new auth.GoogleAuthProvider();
+		try {
+			const result = await auth().signInWithPopup(provider);
+			const user = {
+				username: result.user.displayName,
+				email: result.user.email,
+				img: result.user.photoURL,
+				roles: {},
+			};
+			console.log(result);
+
+			await database.collection("users").doc(result.user.uid).set(user);
+			writeStorage("user", JSON.stringify(user));
+			// dispatch({ type: "setUser", data: user });
+			// history.push("/");
+		} catch (error) {
+			console.error(error);
+		}
+	};
 	const handleProfileMenuOpen = (event) => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -193,6 +215,14 @@ export default function NavBar() {
 							</Badge>
 						</IconButton>
 						<IconButton aria-label="show 17 new notifications" color="inherit">
+							<Badge badgeContent={17} color="secondary">
+								<NotificationsIcon />
+							</Badge>
+						</IconButton>
+						<IconButton
+							onClick={() => handleLogin()}
+							aria-label="show 17 new notifications"
+							color="inherit">
 							<Badge badgeContent={17} color="secondary">
 								<NotificationsIcon />
 							</Badge>

@@ -1,52 +1,34 @@
-import React, { useEffect } from "react";
+import React from "react";
+import useFetch from "react-fetch-hook";
 import Gallery from "react-grid-gallery";
-import { useImmer } from "use-immer";
-
-const IMAGES = [
-	{
-		src: "https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_b.jpg",
-		thumbnail:
-			"https://c2.staticflickr.com/9/8817/28973449265_07e3aa5d2e_n.jpg",
-		thumbnailWidth: 320,
-		thumbnailHeight: 174,
-		isSelected: true,
-		caption: "After Rain (Jeshu John - designerspics.com)",
-	},
-	{
-		src: "https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_b.jpg",
-		thumbnail:
-			"https://c2.staticflickr.com/9/8356/28897120681_3b2c0f43e0_n.jpg",
-		thumbnailWidth: 320,
-		thumbnailHeight: 212,
-		tags: [
-			{ value: "Ocean", title: "Ocean" },
-			{ value: "People", title: "People" },
-		],
-		caption: "Boats (Jeshu John - designerspics.com)",
-	},
-
-	{
-		src: "https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_b.jpg",
-		thumbnail:
-			"https://c4.staticflickr.com/9/8887/28897124891_98c4fdd82b_n.jpg",
-		thumbnailWidth: 320,
-		thumbnailHeight: 212,
-	},
-];
 
 export default function Main() {
-	const [gifs, setGifs] = useImmer({
-		trending: [],
-		searches: [],
-	});
+	const { isLoading, data } = useFetch(
+		`http://${process.env.REACT_APP_HOST}/${process.env.REACT_APP_API_VERSION}/trending`,
+		{
+			formatter: async (response) => {
+				const json = await response.json();
+				return json.results.map((result) => {
+					return {
+						src: `http://localhost:8081/img/${result.media.gif.url}/tenor.gif`,
+						thumbnail: `http://localhost:8081/img/${result.media.gif.url}/tenor.gif`,
+						thumbnailWidth: result.media.mp4.dims[0],
+						thumbnailHeight: result.media.mp4.dims[1],
+					};
+				});
+			},
+		}
+	);
 
-	useEffect(() => {}, []);
-
+	// if (isLoading) return <div>Loading</div>;
+	return <div>Loading</div>;
 	return (
 		<>
 			<div>
-				<Gallery images={IMAGES} />
+				<Gallery images={data} />
 			</div>
 		</>
 	);
 }
+
+Main.whyDidYouRender = true;
