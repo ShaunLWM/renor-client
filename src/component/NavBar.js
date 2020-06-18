@@ -89,6 +89,10 @@ export default function NavBar() {
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+	const handleSignout = async () => {
+		await auth().signOut();
+	};
+
 	const handleLogin = async () => {
 		const provider = new auth.GoogleAuthProvider();
 		try {
@@ -221,6 +225,14 @@ export default function NavBar() {
 						</IconButton>
 						<IconButton
 							onClick={() => handleLogin()}
+							aria-label="show 17 new notifications"
+							color="inherit">
+							<Badge badgeContent={17} color="secondary">
+								<NotificationsIcon />
+							</Badge>
+						</IconButton>
+						<IconButton
+							onClick={() => handleSignout()}
 							aria-label="show 17 new notifications"
 							color="inherit">
 							<Badge badgeContent={17} color="secondary">
