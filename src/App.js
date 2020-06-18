@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import NavBar from "./component/NavBar";
 import { auth } from "./lib/Firebase";
-import Main from "./screen/Main";
+import { Main, View } from "./screen";
 
 function App() {
 	useEffect(() => {
@@ -26,6 +26,9 @@ function App() {
 				<Switch>
 					<Route exact path="/">
 						<Main />
+					</Route>
+					<Route path="/view/:slug">
+						<View />
 					</Route>
 				</Switch>
 			</Container>
