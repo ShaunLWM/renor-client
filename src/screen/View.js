@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	gif: {
 		width: "100%",
+		borderRadius: "5px",
 	},
 	tagsDiv: {
 		margin: "20px 0px 30px 0px",
@@ -65,6 +66,39 @@ const useStyles = makeStyles((theme) => ({
 	customHr: {
 		borderTop: "1px solid #e8e8e8",
 	},
+	relatedDiv: {
+		display: "flex",
+		flexDirection: "column",
+	},
+	gifWithOverlay: {
+		"&:hover $gifOverlay": {
+			opacity: 1,
+		},
+	},
+	gifOverlay: {
+		position: "absolute",
+		borderRadius: "5px",
+		top: 0,
+		bottom: 25,
+		left: 0,
+		right: 0,
+		backgroundImage:
+			"linear-gradient(-180deg,transparent 50%,rgba(0,0,0,.25) 99%)",
+		opacity: 0,
+		zIndex: 1,
+		transition: ".3s ease",
+	},
+	relatedGif: {
+		width: "100%",
+		borderRadius: "5px",
+	},
+	overlayTextDiv: {
+		padding: 6,
+		position: "absolute",
+		bottom: 0,
+		color: "white",
+		fontWeight: 500,
+	},
 }));
 
 export default function View({ gif = null }) {
@@ -72,6 +106,7 @@ export default function View({ gif = null }) {
 	const classes = useStyles();
 	const { slug } = useParams();
 	const [gifInfo, setGifInfo] = useState(null);
+	const [related, setRelated] = useState([]);
 	const [sm] = useState([
 		{
 			icon: <ChatBubbleIcon style={{ color: "#fdfdfd" }} fontSize="small" />,
@@ -132,12 +167,13 @@ export default function View({ gif = null }) {
 	useEffect(() => {
 		async function fetchGif() {
 			const res = await fetch(
-				`http://${process.env.REACT_APP_HOST}/${process.env.REACT_APP_API_VERSION}/?slug=${slug}&full=1`
+				`http://${process.env.REACT_APP_HOST}/${process.env.REACT_APP_API_VERSION}/?slug=${slug}&full=1&related=1`
 			);
 
 			const data = await res.json();
 			console.log(data.results[0]);
 			setGifInfo(data.results[0]);
+			setRelated(data.related.map((r) => r.media.gif.url));
 		}
 
 		if (!gif) fetchGif();
@@ -230,6 +266,26 @@ export default function View({ gif = null }) {
 				<Typography variant="h6" gutterBottom>
 					Related GIFs
 				</Typography>
+				<div className={classes.relatedDiv}>
+					{related.length > 0 &&
+						related.map((r) => {
+							return (
+								<div
+									className={classes.gifWithOverlay}
+									style={{ position: "relative" }}>
+									<div className={classes.gifOverlay}>
+										<div className={classes.overlayTextDiv}>#hi</div>
+									</div>
+									<img
+										className={classes.relatedGif}
+										style={{ marginBottom: "20px", cursor: "pointer" }}
+										src={`http://localhost:8081/img/${r}/tenor.gif`}
+										alt={gifInfo.title}
+									/>
+								</div>
+							);
+						})}
+				</div>
 			</Grid>
 		</Grid>
 	);
