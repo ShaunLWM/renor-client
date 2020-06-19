@@ -88,10 +88,6 @@ const useStyles = makeStyles((theme) => ({
 		zIndex: 1,
 		transition: ".3s ease",
 	},
-	relatedGif: {
-		width: "100%",
-		borderRadius: "5px",
-	},
 	overlayTextDiv: {
 		padding: 6,
 		position: "absolute",
@@ -277,7 +273,7 @@ export default function View({ gif = null }) {
 										<div className={classes.overlayTextDiv}>#hi</div>
 									</div>
 									<img
-										className={classes.relatedGif}
+										className={classes.gif}
 										style={{ marginBottom: "20px", cursor: "pointer" }}
 										src={`http://localhost:8081/img/${r}/tenor.gif`}
 										alt={gifInfo.title}
