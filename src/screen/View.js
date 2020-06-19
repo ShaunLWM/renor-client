@@ -72,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	gifWithOverlay: {
 		"&:hover $gifOverlay": {
+			cursor: "pointer",
 			opacity: 1,
 		},
 	},
