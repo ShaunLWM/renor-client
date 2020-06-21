@@ -11,7 +11,7 @@ import {
 	Twitter as TwitterIcon,
 } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useClipboard } from "use-clipboard-copy";
 
 const useStyles = makeStyles((theme) => ({
@@ -174,7 +174,8 @@ export default function View({ gif = null }) {
 			setRelated(
 				data.related.map((r) => {
 					return {
-						url: r.media.gif.url,
+						url: r.itemurl,
+						img: r.media.gif.url,
 						tags: r.tags,
 					};
 				})
@@ -275,23 +276,25 @@ export default function View({ gif = null }) {
 					{related.length > 0 &&
 						related.map((r) => {
 							return (
-								<div
-									className={classes.gifWithOverlay}
-									style={{ position: "relative" }}>
-									<div className={classes.gifOverlay}>
-										<div className={classes.overlayTextDiv}>
-											{r.tags.map((tag) => (
-												<span>#{tag}</span>
-											))}
+								<Link to={`/view/${r.url}`}>
+									<div
+										className={classes.gifWithOverlay}
+										style={{ position: "relative" }}>
+										<div className={classes.gifOverlay}>
+											<div className={classes.overlayTextDiv}>
+												{r.tags.map((tag) => (
+													<span>#{tag}</span>
+												))}
+											</div>
 										</div>
+										<img
+											className={classes.gif}
+											style={{ marginBottom: "20px", cursor: "pointer" }}
+											src={`http://localhost:8081/img/${r.img}/tenor.gif`}
+											alt={gifInfo.title}
+										/>
 									</div>
-									<img
-										className={classes.gif}
-										style={{ marginBottom: "20px", cursor: "pointer" }}
-										src={`http://localhost:8081/img/${r.url}/tenor.gif`}
-										alt={gifInfo.title}
-									/>
-								</div>
+								</Link>
 							);
 						})}
 				</div>
