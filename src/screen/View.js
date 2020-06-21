@@ -170,7 +170,14 @@ export default function View({ gif = null }) {
 			const data = await res.json();
 			console.log(data.results[0]);
 			setGifInfo(data.results[0]);
-			setRelated(data.related.map((r) => r.media.gif.url));
+			setRelated(
+				data.related.map((r) => {
+					return {
+						url: r.media.gif.url,
+						tags: r.tags,
+					};
+				})
+			);
 		}
 
 		if (!gif) fetchGif();
@@ -276,7 +283,7 @@ export default function View({ gif = null }) {
 									<img
 										className={classes.gif}
 										style={{ marginBottom: "20px", cursor: "pointer" }}
-										src={`http://localhost:8081/img/${r}/tenor.gif`}
+										src={`http://localhost:8081/img/${r.url}/tenor.gif`}
 										alt={gifInfo.title}
 									/>
 								</div>
