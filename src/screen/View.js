@@ -95,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
 		bottom: 0,
 		color: "white",
 		fontWeight: 500,
+		display: "flex",
 	},
 }));
 
@@ -278,7 +279,11 @@ export default function View({ gif = null }) {
 									className={classes.gifWithOverlay}
 									style={{ position: "relative" }}>
 									<div className={classes.gifOverlay}>
-										<div className={classes.overlayTextDiv}>#hi</div>
+										<div className={classes.overlayTextDiv}>
+											{r.tags.map((tag) => (
+												<span>#{tag}</span>
+											))}
+										</div>
 									</div>
 									<img
 										className={classes.gif}
