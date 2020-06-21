@@ -169,7 +169,6 @@ export default function View({ gif = null }) {
 			);
 
 			const data = await res.json();
-			console.log(data.results[0]);
 			setGifInfo(data.results[0]);
 			setRelated(
 				data.related.map((r) => {
@@ -183,7 +182,7 @@ export default function View({ gif = null }) {
 		}
 
 		if (!gif) fetchGif();
-	}, []);
+	}, [slug]);
 
 	if (!gifInfo) return <div>Loading</div>;
 	return (
