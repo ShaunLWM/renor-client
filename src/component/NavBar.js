@@ -15,6 +15,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import SearchIcon from "@material-ui/icons/Search";
 import { writeStorage } from "@rehooks/local-storage";
 import React from "react";
+import { Link } from "react-router-dom";
 import { auth, database } from "../lib/Firebase";
 
 const useStyles = makeStyles((theme) => ({
@@ -77,6 +78,12 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		[theme.breakpoints.up("md")]: {
 			display: "none",
+		},
+	},
+	headerLink: {
+		textDecoration: "none",
+		"&:focus, &:hover, &:visited, &:link, &:active": {
+			color: "white",
 		},
 	},
 }));
@@ -195,9 +202,11 @@ export default function NavBar() {
 						aria-label="open drawer">
 						<MenuIcon />
 					</IconButton>
-					<Typography className={classes.title} variant="h6" noWrap>
-						Renor
-					</Typography>
+					<Link to="/" className={classes.headerLink}>
+						<Typography className={classes.title} variant="h6" noWrap>
+							Renor
+						</Typography>
+					</Link>
 					<div className={classes.search}>
 						<div className={classes.searchIcon}>
 							<SearchIcon />
