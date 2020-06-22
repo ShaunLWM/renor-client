@@ -7,6 +7,7 @@ export default function Main() {
 	const history = useHistory();
 	const currentPage = useRef(1);
 	const [gifs, setGifs] = useState([]);
+	const [isLoading, setLoading] = useState(false);
 	const fetchMain = async () => {
 		const response = await fetch(
 			`http://${process.env.REACT_APP_HOST}/${process.env.REACT_APP_API_VERSION}/trending?page=${currentPage.current}`
@@ -23,6 +24,7 @@ export default function Main() {
 			};
 		});
 
+		setLoading(false);
 		setGifs((ars) => ars.concat(arr));
 	};
 
@@ -41,6 +43,7 @@ export default function Main() {
 		}
 
 		currentPage.current += 1;
+		setLoading(true);
 		fetchMain();
 	};
 
