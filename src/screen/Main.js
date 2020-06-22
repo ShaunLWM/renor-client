@@ -1,3 +1,4 @@
+import { Typography } from "@material-ui/core";
 import React, { useEffect, useRef, useState } from "react";
 import Gallery from "react-grid-gallery";
 import { useHistory } from "react-router-dom";
@@ -54,14 +55,35 @@ export default function Main() {
 		return history.push(`/view/${slug}`);
 	};
 
+	const thumbnailStyle = function () {
+		console.log(this);
+		return {
+			width: this.props.item.vwidth,
+			height: this.props.height,
+			border: "1px solid #d9d9d9",
+			borderRadius: "5px",
+		};
+	};
+
 	if (gifs.length < 1) return <div>Loading</div>;
 	return (
 		<>
 			<div>
+				<Typography variant="h5" component="h3" gutterBottom>
+					Trending Searches
+				</Typography>
+				<div style={{ height: "200px" }}></div>
+			</div>
+			<div>
+				<Typography variant="h5" component="h3" gutterBottom>
+					Trending GIFs
+				</Typography>
 				<Gallery
 					images={gifs}
 					onClickThumbnail={onClickThumbnail}
 					enableImageSelection={false}
+					margin={6}
+					// thumbnailStyle={thumbnailStyle}
 				/>
 			</div>
 		</>
