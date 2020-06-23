@@ -142,7 +142,7 @@ export default function View({ gif = null }) {
 			color: "#fdfdfd",
 			fn: (gifInfo) => {
 				clipboard.copy(
-					`http://localhost:8081/img/${gifInfo.media.gif.url}/tenor.gif`
+					`http://localhost:8081/img/${gifInfo.media[0].gif.url}/tenor.gif`
 				);
 			},
 		},
@@ -174,7 +174,7 @@ export default function View({ gif = null }) {
 				data.related.map((r) => {
 					return {
 						url: r.itemurl,
-						img: r.media.gif.url,
+						img: r.media[0].gif.url,
 						tags: r.tags,
 					};
 				})
@@ -193,7 +193,7 @@ export default function View({ gif = null }) {
 				</Typography>
 				<img
 					className={classes.gif}
-					src={`http://localhost:8081/img/${gifInfo.media.gif.url}/tenor.gif`}
+					src={gifInfo.media[0].gif.url}
 					alt={gifInfo.title}
 				/>
 				<div className={classes.controlDiv}>Hi</div>
@@ -232,15 +232,11 @@ export default function View({ gif = null }) {
 						Share URL
 					</Typography>
 					<TextField
-						onClick={() =>
-							clipboard.copy(
-								`http://localhost:8081/img/${gifInfo.media.gif.url}/tenor.gif`
-							)
-						}
+						onClick={() => clipboard.copy(gifInfo.media[0].gif.url)}
 						className={classes.shareInput}
 						id="input-share-url"
 						variant="outlined"
-						value={`http://localhost:8081/img/${gifInfo.media.gif.url}/tenor.gif`}
+						value={gifInfo.media[0].gif.url}
 						readOnly
 					/>
 					<Typography
@@ -289,7 +285,7 @@ export default function View({ gif = null }) {
 										<img
 											className={classes.gif}
 											style={{ marginBottom: "20px", cursor: "pointer" }}
-											src={`http://localhost:8081/img/${r.img}/tenor.gif`}
+											src={r.img}
 											alt={gifInfo.title}
 										/>
 									</div>

@@ -15,11 +15,12 @@ export default function Main() {
 		if (!response.ok) throw Error(response.statusText);
 		const json = await response.json();
 		const arr = json.results.map((result) => {
+			const gif = result.media[0].gif;
 			return {
-				src: `http://localhost:8081/img/${result.media.gif.url}/tenor.gif`,
-				thumbnail: `http://localhost:8081/img/${result.media.gif.url}/tenor.gif`,
-				thumbnailWidth: result.media.gif.dims[0],
-				thumbnailHeight: result.media.gif.dims[1],
+				src: gif.url,
+				thumbnail: gif.url,
+				thumbnailWidth: gif.dims[0],
+				thumbnailHeight: gif.dims[1],
 				slug: result.itemurl,
 			};
 		});
