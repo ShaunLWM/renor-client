@@ -10,6 +10,7 @@ import {
 	Reddit as RedditIcon,
 	Twitter as TwitterIcon,
 } from "@material-ui/icons";
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useClipboard } from "use-clipboard-copy";
@@ -96,6 +97,11 @@ const useStyles = makeStyles((theme) => ({
 		color: "white",
 		fontWeight: 500,
 		display: "flex",
+	},
+	infoTitle: {
+		fontWeight: 700,
+		fontSize: "1rem",
+		margin: "1rem 0rem",
 	},
 }));
 
@@ -228,9 +234,7 @@ export default function View({ gif = null }) {
 					))}
 				</div>
 				<div className={classes.shareDiv}>
-					<Typography variant="body1" gutterBottom>
-						Share URL
-					</Typography>
+					<div className={classes.infoTitle}>Share URL</div>
 					<TextField
 						onClick={() => clipboard.copy(gifInfo.media[0].gif.url)}
 						className={classes.shareInput}
@@ -239,12 +243,7 @@ export default function View({ gif = null }) {
 						value={gifInfo.media[0].gif.url}
 						readOnly
 					/>
-					<Typography
-						variant="body1"
-						gutterBottom
-						style={{ marginTop: "20px" }}>
-						Embed
-					</Typography>
+					<div className={classes.infoTitle}>Embed</div>
 					<TextField
 						onClick={() =>
 							clipboard.copy(
@@ -259,9 +258,16 @@ export default function View({ gif = null }) {
 					/>
 				</div>
 				<div className={classes.customHr} />
-				<Typography variant="body1" gutterBottom style={{ marginTop: "20px" }}>
-					Details
-				</Typography>
+				<div>
+					<div className={classes.infoTitle}>Details</div>
+					<p>Duration: {gifInfo.details.duration} sec</p>
+					<p>
+						Dimensions: {gifInfo.details.dimens[0]}x{gifInfo.details.dimens[1]}
+					</p>
+					<p>
+						Created: {dayjs(gifInfo.createdAt).format("DD MMM YYYY, hh:mm A")}
+					</p>
+				</div>
 			</Grid>
 			<Grid item sm={12} md={4}>
 				<Typography variant="h6" gutterBottom>
