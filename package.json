@@ -12,7 +12,7 @@
     "@welldone-software/why-did-you-render": "^4.3.1",
     "dayjs": "^1.8.35",
     "firebase": "^7.20.0",
-    "immer": "^7.0.9",
+    "immer": "^9.0.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-fetch-hook": "^1.8.3",
